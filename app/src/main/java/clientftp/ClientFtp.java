@@ -1,11 +1,13 @@
-package ClientFtp;
+package clientftp;
 
-import android.graphics.Bitmap;
 import android.util.Log;
 
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 
@@ -19,6 +21,7 @@ public class ClientFtp {
     String pass, uname;
     int port;
     FTPClient ftpClient;
+    private static String TAG = ClientFtp.class.getName();
 
     /**
      * builder class to build the ftp client
@@ -89,12 +92,12 @@ public class ClientFtp {
     }
 
     /**
-     * uploads the bitmap to the server
+     * uploads a file to the FTP server
      *
-     * @param bm bitmap to be uploaded
+     * @param file file to be uploaded
      */
-    public void uploadBitmap( Bitmap bm , String directory ){
-
+    public void uploadBitmap( File file , String directory ){
+        BufferedInputStream buffIn = null;
         try {
             openConnection();
             ftpClient.changeWorkingDirectory(directory);//TODO set directory

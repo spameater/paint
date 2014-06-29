@@ -1,0 +1,6 @@
+[x] make change color works 
+[x] implement brush size
+3. implement undo redo 
+4. implement save image locally 
+5. implement send function using http server 
+6. add erasor 

@@ -1,4 +1,4 @@
-package Main;
+package main;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 
+import cyc.paint.DrawingView;
 import cyc.paint.R;
 
 /**
@@ -18,19 +19,30 @@ import cyc.paint.R;
 public class MyActivity extends Activity
         implements View.OnClickListener
 {
-    public static final String TAG = MyActivity.class.getName();
+    private static final String TAG = MyActivity.class.getName();
     /**
-     * buttons
+     * functional buttons
      */
-    ImageButton save;
-    ImageButton eraser;
-    ImageButton brush;
+    private ImageButton save;
+    private ImageButton eraser;
+    private ImageButton brush;
+    /**
+     * paint size buttons
+     */
+    private ImageButton largeBrush, midBrush, smallBrush;
+
+    private DrawingView drawView ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_activirty);
+        setContentView(R.layout.my_activirty);
+        initDrawView();
         initButtons();
+    }
+
+    private void initDrawView(){
+        drawView = (DrawingView) findViewById(R.id.myDrawView);
     }
 
     /**
@@ -44,6 +56,8 @@ public class MyActivity extends Activity
 
         // add onclick listener
         save.setOnClickListener(this);
+        brush.setOnClickListener(this);
+        eraser.setOnClickListener(this);
     }
 
 
@@ -66,12 +80,44 @@ public class MyActivity extends Activity
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * set the color on paint button clicked
+     * this method depends on the tag of the
+     * image button to be the hex color code
+     * @param v
+     */
+    public void paintClicked(View v){
+        String color = (String) v.getTag();
+        drawView.setColor(color);
+    }
+
+    /**
+     * called when a brushButton is clicked
+     * this must be public
+     * @param v
+     */
+    public void brushClicked(View v){
+        String size = (String) v.getTag();
+        drawView.setBrushSize(Integer.parseInt(size));
+        Log.i(TAG,"brush size changed" + size.toString());
+    }
+
+    /**
+     * TODO undone
+     * @param view
+     */
     @Override
     public void onClick(View view) {
         int viewId = view.getId();
         switch (viewId){
-            case R.id.save: //save button
-
+            case R.id.save: //@TODO save button
+            break;
+            case R.id.eraserButton:
+                drawView.enableEraser();
+                break;
+            case R.id.brush:
+                //TODO
+                break;
             default:
                 Log.e(TAG,"onClick: error viewId" + viewId);
                 break;
